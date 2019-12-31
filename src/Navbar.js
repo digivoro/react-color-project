@@ -32,7 +32,7 @@ export default class Navbar extends Component {
 
   render() {
     // Destructure
-    const { level, changeLevel } = this.props;
+    const { level, changeLevel, showSlider } = this.props;
     const { format, open } = this.state;
 
     return (
@@ -40,12 +40,20 @@ export default class Navbar extends Component {
         <div className="logo">
           <Link to="/">reactcolorpicker</Link>
         </div>
-        <div className="slider-container">
-          <span className="slider-level">Level: {level}</span>
-          <div className="slider">
-            <Slider defaultValue={level} min={100} max={900} step={100} onChange={changeLevel} />
+        {showSlider && (
+          <div className="slider-container">
+            <span className="slider-level">Level: {level}</span>
+            <div className="slider">
+              <Slider
+                defaultValue={level}
+                min={100}
+                max={900}
+                step={100}
+                onChange={changeLevel}
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div className="select-container">
           <Select value={format} onChange={this.handleFormatChange}>
             <MenuItem value="hex">HEX - #ffffff</MenuItem>
@@ -57,13 +65,22 @@ export default class Navbar extends Component {
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={open}
           autoHideDuration={3000}
-          message={<span id="message-id">Format changed to {format.toUpperCase()}</span>}
+          message={
+            <span id="message-id">
+              Format changed to {format.toUpperCase()}
+            </span>
+          }
           ContentProps={{
             "aria-describedby": "message-id"
           }}
           onClose={this.closeSnackbar}
           action={[
-            <IconButton onClick={this.closeSnackbar} color="inherit" key="close" aria-label="close">
+            <IconButton
+              onClick={this.closeSnackbar}
+              color="inherit"
+              key="close"
+              aria-label="close"
+            >
               <CloseIcon />
             </IconButton>
           ]}
